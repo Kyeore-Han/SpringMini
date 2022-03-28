@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="guestBookSQL">
+	<!-- 글쓰기 -->
+	<insert id="guestBookWrite" parameterType="java.util.Map">
+		insert into guestbook(seq
+						, name
+						, email
+						, homepage
+						, subject
+						, content
+						, logtime
+						)
+				values(seq_guestbook.nextval
+					, #{name}
+					, #{email}
+					, #{homepage}
+					, #{subject}
+					, #{content}
+					, sysdate
+					)
+	</insert>
+	
+	<!-- 목록 -->
+	<select id="getGuestBookList" parameterType="java.util.Map" resultType="guestbook">
+		
+		<![CDATA[
+		select * from
+		(select rownum rn, tt.* from
+		(select * from guestbook) tt)
+		where rn>=#{startNum} and rn<=#{endNum}
+		]]>
+	</select>
+	
+	<!-- 총글수 -->
+	<select id="getTotalA" resultType="int">
+		select count(*) from guestbook
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

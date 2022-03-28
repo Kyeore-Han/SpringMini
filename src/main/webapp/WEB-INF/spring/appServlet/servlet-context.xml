@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/image/**" location="/image/" />
+	<resources mapping="/js/**" location="/js/" />
+	<resources mapping="/imageboard/**" location="/imageboard/" />
+	<resources mapping="/storage/**" location="/storage/" />
+	
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+      <beans:property name="order" value="0" /> <!-- bean설정을 찾아서 이름과 똑같은 것(id="jsonView")을 찾아서 json으로 바꿔준다. -->
+    </beans:bean> <!-- 만약 같은 이름이 없으면 대신에 우선순위에서 벗어나서 ViewResolver로 가게 된다. -->
+	
+	<!-- 파일 업로드 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="5000000" /> <!-- 5MB -->
+	</beans:bean>
+	
+	
+	<!-- JSON -->
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"> <!-- 가지고 잇는 객체들을 전부 json으로 변환해준다. -->
+		<beans:property name="contentType" value="text/html;charset=UTF-8" />
+	</beans:bean>
+	
+
+	<context:component-scan base-package="com.spring.SpringProject" />
+	
+	<context:component-scan base-package="board.controller" />
+	<context:component-scan base-package="imageboard.controller" />
+	<context:component-scan base-package="member.controller" />
+	
+	<context:component-scan base-package="guestbook.controller" />
+	
+</beans:beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
